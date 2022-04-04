@@ -1,7 +1,7 @@
 # RSA
 For IT security basics course
 
-#About the algorithm:  
+# About the algorithm:  
 Two prime number (p and q) needed. This program will generate these numbers randomly.  
 N=p*q and fiN=(p-1)*(q-1)
 e should be a relative prime for fiN, that generate randomly this code.  
