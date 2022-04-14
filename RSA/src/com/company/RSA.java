@@ -18,10 +18,13 @@ public class RSA {
         MathComponents mathComponents =new MathComponents();
         List<Integer> myPrimes= mathComponents.getNPrimes(2); //We need 2 prime number for RSA
 
+        myPrimes.set(0,47);
+        myPrimes.set(1,2);
+
         int N=myPrimes.get(0)*myPrimes.get(1); //N=p*q where p and q is our primes.
         int fiN=(myPrimes.get(0)-1)*(myPrimes.get(1)-1); //fiN=(p-1)*(q-1)
         int e=mathComponents.getARelativePrimeForNumber(fiN); //e is a relative prime for fiN
-
+        e=7;
         //Euripides algorithm -> e*d=k*fiN+1
         int k=getKParam(fiN, e);
         int d=(k*fiN+1)/e;
@@ -35,15 +38,17 @@ public class RSA {
         out.println("d="+d);
 
         int input= getInput();
-        int coded=encryptNumber(input,e, N); //encryption
+        //int coded=encryptNumber(input,e, N); //encryption
 
         out.println("Public key:"+N+", "+e);
         out.println("Private key:"+N+", "+d);
-        out.println("uncoded: "+input+"---> coded: "+coded);
+        //out.println("uncoded: "+input+"---> coded: "+coded);
 
         RSA_Decoder decoder=new RSA_Decoder();
-        int decoded=decoder.decodeNumber(coded,d,N);
-        out.println("coded: "+coded+"---> decoded: "+decoded);
+        int encrypted=decoder.decodeNumber(input,e, N); //encryption
+        out.println("encrypted: "+encrypted);
+        int decrypted=decoder.decodeNumber(encrypted,d,N);
+        out.println("decrypted: "+decrypted);
     }
 
     /**
@@ -81,17 +86,5 @@ public class RSA {
             }
         }
         return k;
-    }
-
-    /**
-     * This is he official way to encrypt a number with RSA.
-     * @param number will be encrypted
-     * @param e is the exponent
-     * @param N is the basis of congruence
-     * @return the encrypted value of number
-     */
-
-    public static int encryptNumber(int number, int e, int N){
-        return (int)(Math.pow(number, e)%N);
     }
 }
